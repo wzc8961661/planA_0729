@@ -18,6 +18,22 @@
       <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+      <script src="js/jquery-3.4.1.min.js"></script>
+      <script src="js/form2json.js"></script>
+      <script>
+          //登录
+          function login() {
+              var phone=$("#phone").val()
+              var password=$("#password").val()
+              $.ajax({
+                  url:"/user/login",
+                  type:"GET",
+                  data:{phone:phone,password:password},
+                  dataType:"Json",
+                  
+              })
+          }
+      </script>
   </head>
   <body>
     <div class="maincont">
@@ -33,11 +49,12 @@
      <form action="user.html" method="get" class="reg-login">
       <h3>还没有三级分销账号？点此<a class="orange" href="reg.html">注册</a></h3>
       <div class="lrBox">
-       <div class="lrList"><input type="text" placeholder="输入手机号码或者邮箱号" /></div>
-       <div class="lrList"><input type="text" placeholder="输入证码" /></div>
+       <div class="lrList"><input type="text" name="phone" id="phone" placeholder="输入手机号码" /></div>
+       <div class="lrList"><input type="text" name="password" id="password" placeholder="输入密码" /></div>
+       <div class="lrList"><input type="text" placeholder="输入验证码" /></div>
       </div><!--lrBox/-->
       <div class="lrSub">
-       <input type="submit" value="立即登录" />
+       <input type="button" value="立即登录" onclick="login()"/>
       </div>
      </form><!--reg-login/-->
      <div class="height1"></div>
