@@ -22,44 +22,7 @@
     <![endif]-->
       <script src="js/jquery-3.4.1.min.js"></script>
       <script src="js/form2json.js"></script>
-      <script src="js/verify.js"></script>
-      <script src="js/qrcode.min.js"></script>
-      <script src="js/longbow.slidercaptcha.js"></script>
       <script>
-          //验证码
-          // $(function() {
-          //
-          //     $("#vcCode").codeVerify({
-          //         type: 1,
-          //         width: '80px',
-          //         height: '27px',
-          //         fontSize: '18px',
-          //         codeLength: 4,
-          //         btnId: 'login', // 登陆按钮ID
-          //         ready: function() {},
-          //         success: function() {
-          //             // 验证成功之后调用登陆方法
-          //         },
-          //         error: function() {
-          //             alert("验证码错误");
-          //         }
-          //     });
-          //
-          // });
-          //
-          //
-          // $('#captcha').sliderCaptcha({
-          //     repeatIcon: 'fa fa-redo',
-          //     setSrc: function () {
-          //         return 'http://images.sdgxgz.com/Pic' + Math.round(Math.random() * 136) + '.jpg';
-          //     },
-          //     onSuccess: function () {
-          //
-          //         alert('验证通过!');
-          //     }
-          // });
-
-
           //登录
           function login() {
               var phone=$("#phone").val()
@@ -68,7 +31,7 @@
                   url:"/user/login",
                   type:"GET",
                   data:{phone:phone,password:password},
-                  dataType:"Json",
+                  dataType:"json",
                   statusCode:{
                       200:function () {
                           location.href="/index.html"
@@ -93,16 +56,16 @@
      <div class="head-top">
       <img src="images/head.jpg" />
      </div><!--head-top/-->
-     <form action="user.html" method="get" class="reg-login">
+     <form action="user.html" method="get" class="reg-login" id="loginForm">
       <h3>还没有三级分销账号？点此<a class="orange" href="reg.html">注册</a></h3>
       <div class="lrBox">
        <div class="lrList"><input type="text" name="phone" id="phone" placeholder="输入手机号码" /></div>
        <div class="lrList"><input type="text" name="password" id="password" placeholder="输入密码" /></div>
        <div class="lrList"><input type="text" placeholder="输入验证码"/></div>
-       <div class="lrList"><span id="loginMsg"></span></div>
+       <div class="lrList"><span><font color="red" id="loginMsg" ></font></span></div>
       </div><!--lrBox/-->
       <div class="lrSub">
-       <input type="button" id="login" value="立即登录" onclick="login()"/>
+       <input type="button" value="立即登录" onclick="login()"/>
       </div>
      </form><!--reg-login/-->
      <div class="height1"></div>
