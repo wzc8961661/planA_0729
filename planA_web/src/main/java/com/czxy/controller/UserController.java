@@ -4,10 +4,7 @@ import com.czxy.domain.User;
 import com.czxy.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -35,6 +32,18 @@ public class UserController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //注册--校验手机号
+    @GetMapping("/{phone}")
+    public ResponseEntity<Boolean> checkPhone(@PathVariable("phone") String phone){
+        boolean rel = userService.checkPhone(phone);
+        if (rel){
+            return new ResponseEntity<>(true,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(false,HttpStatus.OK);
+        }
+    }
+
 
     //注册
     @PostMapping("/register")

@@ -12,6 +12,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/response.css" rel="stylesheet">
+    <link href="css/verify.css" rel="stylesheet">
+    <link href="css/slidercaptcha.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -20,7 +22,44 @@
     <![endif]-->
       <script src="js/jquery-3.4.1.min.js"></script>
       <script src="js/form2json.js"></script>
+      <script src="js/verify.js"></script>
+      <script src="js/qrcode.min.js"></script>
+      <script src="js/longbow.slidercaptcha.js"></script>
       <script>
+          //验证码
+          // $(function() {
+          //
+          //     $("#vcCode").codeVerify({
+          //         type: 1,
+          //         width: '80px',
+          //         height: '27px',
+          //         fontSize: '18px',
+          //         codeLength: 4,
+          //         btnId: 'login', // 登陆按钮ID
+          //         ready: function() {},
+          //         success: function() {
+          //             // 验证成功之后调用登陆方法
+          //         },
+          //         error: function() {
+          //             alert("验证码错误");
+          //         }
+          //     });
+          //
+          // });
+          //
+          //
+          // $('#captcha').sliderCaptcha({
+          //     repeatIcon: 'fa fa-redo',
+          //     setSrc: function () {
+          //         return 'http://images.sdgxgz.com/Pic' + Math.round(Math.random() * 136) + '.jpg';
+          //     },
+          //     onSuccess: function () {
+          //
+          //         alert('验证通过!');
+          //     }
+          // });
+
+
           //登录
           function login() {
               var phone=$("#phone").val()
@@ -40,6 +79,7 @@
                   }
               })
           }
+
       </script>
   </head>
   <body>
@@ -58,11 +98,11 @@
       <div class="lrBox">
        <div class="lrList"><input type="text" name="phone" id="phone" placeholder="输入手机号码" /></div>
        <div class="lrList"><input type="text" name="password" id="password" placeholder="输入密码" /></div>
-       <div class="lrList"><input type="text" placeholder="输入验证码" /></div>
+       <div class="lrList"><input type="text" placeholder="输入验证码"/></div>
        <div class="lrList"><span id="loginMsg"></span></div>
       </div><!--lrBox/-->
       <div class="lrSub">
-       <input type="button" value="立即登录" onclick="login()"/>
+       <input type="button" id="login" value="立即登录" onclick="login()"/>
       </div>
      </form><!--reg-login/-->
      <div class="height1"></div>
