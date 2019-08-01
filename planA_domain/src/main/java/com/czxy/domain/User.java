@@ -14,15 +14,17 @@ public class User {
     @Id
     private Integer uid;//用户id
     private String phone;//手机号
-    private String password;
+    private String password;//密码
+    private String username;//用户名
 
     public User() {
     }
 
-    public User(Integer uid, String phone, String password) {
+    public User(Integer uid, String phone, String password, String username) {
         this.uid = uid;
         this.phone = phone;
         this.password = password;
+        this.username = username;
     }
 
     public Integer getUid() {
@@ -49,12 +51,21 @@ public class User {
         this.password = password;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "uid=" + uid +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }

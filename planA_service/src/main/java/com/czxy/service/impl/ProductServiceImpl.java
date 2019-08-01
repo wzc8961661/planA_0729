@@ -21,6 +21,12 @@ public class ProductServiceImpl implements ProductService{
     @Resource
     private ProductMapper productMapper;
 
+    //模糊查询
+    @Override
+    public List<Product> findProByPname(String pname) {
+        return productMapper.findProByPname("%"+pname+"%");
+    }
+
     //展示所有商品
     @Override
     public List<Product> findAll() {

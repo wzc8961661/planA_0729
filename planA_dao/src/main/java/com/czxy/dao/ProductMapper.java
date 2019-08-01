@@ -15,6 +15,10 @@ import java.util.List;
 @org.apache.ibatis.annotations.Mapper
 public interface ProductMapper extends Mapper<Product> {
 
+    //模糊查询
+    @Select("select * from product where pname like #{pname}")
+    public List<Product> findProByPname(@Param("pname") String pname);
+
     // 查询所有商品
     @Select("select * from product")
     public List<Product> findAll();
