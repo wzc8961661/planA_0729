@@ -27,11 +27,6 @@
     </parent>
 
     <dependencies>
-        <dependency>
-            <groupId>com.czxy</groupId>
-            <artifactId>itcasttools</artifactId>
-            <version>1.5.7</version>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -87,6 +82,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.czxy</groupId>
+            <artifactId>itcasttools</artifactId>
+            <version>1.5.7</version>
         </dependency>
     </dependencies>
 </project>

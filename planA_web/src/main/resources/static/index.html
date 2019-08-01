@@ -23,11 +23,11 @@
         $(function () {
             //展示登录名
             $.ajax({
-                url:"/user/showUserName",
-                type:"GET",
-                dataType:"json",
-                success:function (data) {
-                    $("#username").html(data.username+",欢迎你")
+                url: "/user/showUserName",
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    $("#username").html(data.username + ",欢迎你")
                 }
             })
 
@@ -41,15 +41,15 @@
                     $(data).each(function (index, ele) {
                         $("#productList").append(" <div class=\"index-pro1-list\">\n" +
                             "       <dl>\n" +
-                            "        <dt><a href=\"proinfo.html\"><img src='/upload/" + ele.pimg + "' /></a></dt>\n" +
-                            "        <dd class=\"ip-text\"><a href=\"proinfo.html\">" + ele.pname + "</a><span>已售：" + ele.sales + "</span></dd>\n" +
+                            "        <dt><a href=\"proinfo.html?id=" + ele.pid + "\"><img src='/upload/" + ele.pimg + "' /></a></dt>\n" +
+                            "        <dd class=\"ip-text\"><a href=\"proinfo.html?id=" + ele.pid + "\">" + ele.pname + "</a><span>已售：" + ele.sales + "</span></dd>\n" +
                             "        <dd class=\"ip-price\"><strong>¥" + ele.marketPrice + "</strong> <span>¥" + ele.shopPrice + "</span></dd>\n" +
                             "       </dl>\n" +
                             "      </div>")
                     })
                 }
             })
-        })
+        });
 
 
         //模糊查询

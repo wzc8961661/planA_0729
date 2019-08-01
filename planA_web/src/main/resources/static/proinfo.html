@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="Author" contect="http://www.webqin.net">
     <title>三级分销</title>
-    <link rel="shortcut icon" href="images/favicon.ico" />
-    
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -15,109 +15,134 @@
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
 
-      <script>
-          //展示商品详情
-          $(function () {
-              var id = decodeURI(location.href).split("=")[1]
-              $.ajax({
-
-                  url:"/product/"+id,
-                  type:"GET",
-                  dataType:"json",
-                  success:function (data) {
-                      $("#s01").html(data.shopPrice)
-                      $("#pname").html(data.pname)
-                      $("#sliderA").html("<img src=\"/upload/"+data.pimg+"\" />")
-                      $("#jianjie").html("<img src=\"/upload/"+data.pimg+"\" width=\"636\" height=\"822\" />")
-                  }
-              })
-          })
-      </script>
-
-  </head>
-  <body>
-    <div class="maincont">
-     <header>
-      <a href="javascript:history.back(-1)" class="back-off fl"><span class="glyphicon glyphicon-menu-left"></span></a>
-      <div class="head-mid">
-       <h1>产品详情</h1>
-      </div>
-     </header>
-     <div id="sliderA" class="slider">
-
-     </div><!--sliderA/-->
-     <table class="jia-len">
-      <tr>
-       <th><strong class="orange" id="s01">14.25</strong></th>
-       <td>
-        <input type="text" name="count" class="spinnerExample"/>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <strong id="pname">三级分销农庄有机毛豆500g</strong>
-       </td>
-       <td align="right">
-        <a href="javascript:;" class="shoucang"><span class="glyphicon glyphicon-star-empty"></span></a>
-       </td>
-      </tr>
-     </table>
-     <div class="height2"></div>
-     <h3 class="proTitle">商品规格</h3>
-     <ul class="guige">
-      <li class="guigeCur"><a href="javascript:;">50克拉</a></li>
-      <li><a href="javascript:;">100克拉</a></li>
-      <li><a href="javascript:;">150克拉</a></li>
-      <li><a href="javascript:;">200克拉</a></li>
-      <li><a href="javascript:;">300克拉</a></li>
-      <div class="clearfix"></div>
-     </ul><!--guige/-->
-     <div class="height2"></div>
-     <div class="zhaieq">
-      <a href="javascript:;" class="zhaiCur">商品简介</a>
-      <a href="javascript:;">商品参数</a>
-      <a href="javascript:;" style="background:none;">订购列表</a>
-      <div class="clearfix"></div>
-     </div><!--zhaieq/-->
-     <div class="proinfoList" id="jianjie">
-
-     </div><!--proinfoList/-->
-     <div class="proinfoList">
-      暂无信息....
-     </div><!--proinfoList/-->
-     <div class="proinfoList">
-      暂无信息......
-     </div><!--proinfoList/-->
-     <table class="jrgwc">
-      <tr>
-       <th>
-        <a href="index.html"><span class="glyphicon glyphicon-home"></span></a>
-       </th>
-       <td><a href="car.html">加入购物车</a></td>
-      </tr>
-     </table>
-    </div><!--maincont-->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/style.js"></script>
-    <!--焦点轮换-->
-    <script src="js/jquery.excoloSlider.js"></script>
     <script>
-		$(function () {
-		 $("#sliderA").excoloSlider();
-		});
-	</script>
-     <!--jq加减-->
-    <script src="js/jquery.spinner.js"></script>
-   <script>
-	$('.spinnerExample').spinner({});
-	</script>
-  </body>
+        //展示商品详情
+        $(function () {
+            var id = decodeURI(location.href).split("=")[1]
+            $.ajax({
+
+                url: "/product/" + id,
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    $("#s01").html(data.shopPrice)
+                    $("#pname").html(data.pname)
+                    $("#sliderA").html("<img src=\"/upload/" + data.pimg + "\" />")
+                    $("#jianjie").html("<img src=\"/upload/" + data.pimg + "\" width=\"636\" height=\"822\" />")
+                }
+            })
+        })
+
+        function addCart() {
+
+            var id = decodeURI(location.href).split("=")[1];
+            var number = $("#num").val();
+            if (number == 0) {
+                number = 1;
+            }
+            $.ajax({
+                url: "/cart/addCart/" + id + "/" + number,
+                type: "PUT",
+                dataType: "json",
+                statusCode: {
+                    201: function () {
+                        location.href = "car.html"
+                    },
+                    500: function () {
+                        alert("网络不佳,请稍后再试")
+                    }
+                }
+            })
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="maincont">
+    <header>
+        <a href="javascript:history.back(-1)" class="back-off fl"><span
+                class="glyphicon glyphicon-menu-left"></span></a>
+        <div class="head-mid">
+            <h1>产品详情</h1>
+        </div>
+    </header>
+    <div id="sliderA" class="slider">
+
+    </div><!--sliderA/-->
+    <table class="jia-len">
+        <tr>
+            <th><strong class="orange" id="s01">14.25</strong></th>
+            <td>
+                购买数量: <input type="text" name="num" id="num"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong id="pname">三级分销农庄有机毛豆500g</strong>
+            </td>
+            <td align="right">
+                <a href="javascript:;" class="shoucang"><span class="glyphicon glyphicon-star-empty"></span></a>
+            </td>
+        </tr>
+    </table>
+    <div class="height2"></div>
+    <h3 class="proTitle">商品规格</h3>
+    <ul class="guige">
+        <li class="guigeCur"><a href="javascript:;">50克拉</a></li>
+        <li><a href="javascript:;">100克拉</a></li>
+        <li><a href="javascript:;">150克拉</a></li>
+        <li><a href="javascript:;">200克拉</a></li>
+        <li><a href="javascript:;">300克拉</a></li>
+        <div class="clearfix"></div>
+    </ul><!--guige/-->
+    <div class="height2"></div>
+    <div class="zhaieq">
+        <a href="javascript:;" class="zhaiCur">商品简介</a>
+        <a href="javascript:;">商品参数</a>
+        <a href="javascript:;" style="background:none;">订购列表</a>
+        <div class="clearfix"></div>
+    </div><!--zhaieq/-->
+    <div class="proinfoList" id="jianjie">
+
+    </div><!--proinfoList/-->
+    <div class="proinfoList">
+        暂无信息....
+    </div><!--proinfoList/-->
+    <div class="proinfoList">
+        暂无信息......
+    </div><!--proinfoList/-->
+    <table class="jrgwc">
+        <tr>
+            <th>
+                <a href="index.html"><span class="glyphicon glyphicon-home"></span></a>
+            </th>
+            <td>
+                <button onclick="addCart()">加入购物车</button>
+        </tr>
+    </table>
+</div><!--maincont-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/style.js"></script>
+<!--焦点轮换-->
+<script src="js/jquery.excoloSlider.js"></script>
+<script>
+    $(function () {
+        $("#sliderA").excoloSlider();
+    });
+</script>
+<!--jq加减-->
+<script src="js/jquery.spinner.js"></script>
+<script>
+    $('.spinnerExample').spinner({});
+</script>
+</body>
 </html>

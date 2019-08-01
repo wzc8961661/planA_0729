@@ -20,7 +20,7 @@ public interface OrderItemMapper extends Mapper<OrderItem> {
 
     @Select("select * from orderitem where oid = #{oid}")
     @Results({
-            @Result(property = "product",one = @One(select = "com.czxy.dao.ProductMapper.selectByPrimaryKey"),column = "pid")
+            @Result(property = "product", one = @One(select = "com.czxy.dao.ProductMapper.selectByPrimaryKey"), column = "pid")
     })
     public List<OrderItem> findOIByOid(String oid);
 }

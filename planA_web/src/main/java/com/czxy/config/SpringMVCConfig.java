@@ -9,6 +9,6 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:G:\\商品图片\\");
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:D:\\TestImg\\");
     }
 }
