@@ -1,5 +1,6 @@
 package com.czxy.controller;
 
+import cn.itcast.vcode.VerifyCode;
 import com.czxy.domain.User;
 import com.czxy.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
 
 /**
  * @author Lenovo
@@ -21,8 +24,37 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    //校验验证码
+    @GetMapping("/checkCode/{vcCode}")
+    public ResponseEntity<Boolean> checkCode(HttpSession session,@PathVariable("vcCode") String vcCode){
+        String codeText = (String) session.getAttribute("codeText");
+        if (codeText.equalsIgnoreCase(vcCode)){
+            return ResponseEntity.ok(true);
+        }else {
+            return ResponseEntity.ok(false);
+        }
+    }
+
+
+    //获取验证码
+    @RequestMapping("/vcCode")
+    public ResponseEntity<Void> getVc(HttpServletResponse response,HttpSession session){
+        try {
+            VerifyCode verifyCode = new VerifyCode();
+            BufferedImage image = verifyCode.getImage();
+            String text = verifyCode.getText();
+            session.setAttribute("codeText", text);
+            verifyCode.output(image, response.getOutputStream());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     //登录
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity login(User user, HttpSession session) {
         User login = userService.login(user);
         if (login != null) {
@@ -32,6 +64,7 @@ public class UserController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     //注册--校验手机号
     @GetMapping("/{phone}")
