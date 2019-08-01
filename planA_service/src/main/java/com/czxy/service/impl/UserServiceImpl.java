@@ -30,6 +30,17 @@ public class UserServiceImpl implements UserService{
         return null;
     }
 
+
+    //注册--校验手机号
+    @Override
+    public boolean checkPhone(String phone) {
+        User user = userMapper.checkPhone(phone);
+        if (user==null){
+            return true;
+        }
+        return false;
+    }
+
     //注册用户
     @Override
     public void register(User user) {
