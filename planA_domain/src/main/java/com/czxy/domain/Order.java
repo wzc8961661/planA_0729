@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "order")
 public class Order {
     @Id
-    private Integer oid;
+    private String oid;
     private Date orderTime;
     private Integer orderStatus;
     private String address;
@@ -26,7 +26,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer oid, Date orderTime, Integer orderStatus, String address, String name, String telephone, Integer uid, List<OrderItem> orderItemList) {
+    public Order(String oid, Date orderTime, Integer orderStatus, String address, String name, String telephone, Integer uid, List<OrderItem> orderItemList) {
         this.oid = oid;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
@@ -37,11 +37,11 @@ public class Order {
         this.orderItemList = orderItemList;
     }
 
-    public Integer getOid() {
+    public String getOid() {
         return oid;
     }
 
-    public void setOid(Integer oid) {
+    public void setOid(String oid) {
         this.oid = oid;
     }
 
