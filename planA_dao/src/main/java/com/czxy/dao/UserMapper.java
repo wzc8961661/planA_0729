@@ -16,6 +16,7 @@ public interface UserMapper extends Mapper<User> {
     @Select("select * from user where phone=#{phone} and password=#{password}")
     public User login(User user);
 
+
     //注册--校验手机号
     @Select("select * from user where phone=#{phone}")
     public User checkPhone(String phone);

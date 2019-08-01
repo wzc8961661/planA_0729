@@ -17,7 +17,29 @@
     <!--[if lt IE 9]>
       <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <![endif]-->]
+
+      <script>
+          function mysubmit() {
+              $.ajax({
+                  url:"/order/save",
+                  type:"GET",
+                  statusCode:{
+                      204:function () {
+                          location.href="/address.html"
+                      },
+                      500:function () {
+                          alert("提交订单失败，购物车空空如也！！")
+                          location.href="/pay.html"
+                      },
+                      400:function () {
+                          alert("未登录不能提交订单,请前往登录")
+                          location.href="/login.html"
+                      }
+                  }
+              })
+          }
+      </script>
   </head>
   <body>
     <div class="maincont">
@@ -110,7 +132,7 @@
       <tr>
        <th width="10%"><a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-menu-left"></span></a></th>
        <td width="50%">总计：<strong class="orange">¥69.88</strong></td>
-       <td width="40%"><a href="success.html" class="jiesuan">提交订单</a></td>
+       <td width="40%"><a href="javascript:mysubmit()" class="jiesuan">提交订单</a></td>
       </tr>
      </table>
     </div><!--gwcpiao/-->

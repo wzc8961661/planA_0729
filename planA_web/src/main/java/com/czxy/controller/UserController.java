@@ -89,4 +89,16 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @GetMapping("/findUser")
+    public ResponseEntity<User> getUser(HttpSession session){
+        User loginU = (User) session.getAttribute("loginU");
+        if (loginU != null){
+            return ResponseEntity.ok(loginU);
+        }else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

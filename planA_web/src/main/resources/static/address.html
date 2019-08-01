@@ -17,7 +17,37 @@
     <!--[if lt IE 9]>
       <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+      <script src="js/form2json.js"></script>
     <![endif]-->
+      <script>
+          $(function () {
+              $.ajax({
+                  url:"/order/getOid",
+                  type:"GET",
+                  dataType:"json",
+                  success:function (order) {
+                      $("#oid").val(order.oid)
+                  }
+              })
+          })
+          function mysubmit() {
+              var fj = $("#addressForm").formToJson()
+              var oid = $("#oid").val()
+              $.ajax({
+                  url:"/order/address",
+                  type:"PUT",
+                  data:fj,
+                  statusCode:{
+                      204:function () {
+                          location.href="/success.html?oid="+oid
+                      },
+                      500:function () {
+                          alert("网络出现异常")
+                      }
+                  }
+              })
+          }
+      </script>
   </head>
   <body>
     <div class="maincont">
@@ -30,14 +60,15 @@
      <div class="head-top">
       <img src="images/head.jpg" />
      </div><!--head-top/-->
-     <form action="login.html" method="get" class="reg-login">
+     <form class="reg-login" id="addressForm">
       <div class="lrBox">
-       <div class="lrList"><input type="text" placeholder="收货人" /></div>
-       <div class="lrList"><input type="text" placeholder="详细地址" /></div>
-       <div class="lrList"><input type="text" name="phone" placeholder="手机" /></div>
+          <div class="lrList"><input type="hidden" name="oid" id="oid"/></div>
+       <div class="lrList"><input type="text" name="name" placeholder="收货人" /></div>
+       <div class="lrList"><input type="text" name="address" placeholder="详细地址" /></div>
+       <div class="lrList"><input type="text" name="telephone" placeholder="手机" /></div>
       </div><!--lrBox/-->
       <div class="lrSub">
-       <input type="button" value="提交" />
+       <input type="button" onclick="mysubmit()" value="提交" />
       </div>
      </form><!--reg-login/-->
      

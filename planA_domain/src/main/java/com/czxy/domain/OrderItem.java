@@ -16,14 +16,14 @@ public class OrderItem {
     private Integer quantity;
     private Double subPrice;
     private Integer pid;
-    private Integer oid;
+    private String oid;
 
     private Product product;
 
     public OrderItem() {
     }
 
-    public OrderItem(Integer itemId, Integer quantity, Double subPrice, Integer pid, Integer oid, Product product) {
+    public OrderItem(Integer itemId, Integer quantity, Double subPrice, Integer pid, String oid, Product product) {
         this.itemId = itemId;
         this.quantity = quantity;
         this.subPrice = subPrice;
@@ -64,11 +64,11 @@ public class OrderItem {
         this.pid = pid;
     }
 
-    public Integer getOid() {
+    public String getOid() {
         return oid;
     }
 
-    public void setOid(Integer oid) {
+    public void setOid(String oid) {
         this.oid = oid;
     }
 
