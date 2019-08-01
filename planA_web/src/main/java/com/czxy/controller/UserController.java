@@ -24,6 +24,14 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    //退出登录
+    @GetMapping("/logOut")
+    public ResponseEntity<Void> logOut(HttpSession session){
+        session.removeAttribute("loginU");
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
     //校验验证码
     @GetMapping("/checkCode/{vcCode}")
     public ResponseEntity<Boolean> checkCode(HttpSession session,@PathVariable("vcCode") String vcCode){
@@ -46,6 +54,18 @@ public class UserController {
             session.setAttribute("codeText", text);
             verifyCode.output(image, response.getOutputStream());
             return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //展示登录名
+    @GetMapping("/showUserName")
+    public ResponseEntity<User> showUserName(HttpSession session){
+        try {
+            User loginU = (User) session.getAttribute("loginU");
+            return ResponseEntity.ok(loginU);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -11,6 +11,9 @@ import java.util.List;
  */
 public interface ProductService {
 
+    //模糊查询
+    public List<Product> findProByPname(String pname);
+
     //展示所有商品
     public List<Product> findAll();
 

@@ -24,6 +24,19 @@ public class ProductController{
     @Resource
     private ProductService productService;
 
+    //模糊查询
+    @GetMapping("/findProByPname/{pname}")
+    public ResponseEntity<List<Product>> findProByPname(@PathVariable("pname") String pname){
+        try {
+            List<Product> productList = productService.findProByPname(pname);
+            System.out.println(productList);
+            return ResponseEntity.ok(productList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     //查询所有商品
     @GetMapping
     public ResponseEntity<List<Product>>findProAll(){
