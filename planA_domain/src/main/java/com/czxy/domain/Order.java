@@ -1,5 +1,7 @@
 package com.czxy.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -10,10 +12,11 @@ import java.util.List;
  * @version v 1.0
  * @date 2019/7/29
  */
-@Table(name = "order")
+@Table(name = "`order`")
 public class Order {
     @Id
     private String oid;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date orderTime;
     private Integer orderStatus;
     private String address;

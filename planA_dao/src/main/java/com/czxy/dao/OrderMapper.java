@@ -4,6 +4,8 @@ import com.czxy.domain.Order;
 import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.common.Mapper;
 
+import java.util.List;
+
 /**
  * @Author 黄开文
  * @Version v 1.0
@@ -22,5 +24,5 @@ public interface OrderMapper extends Mapper<Order> {
             @Result(property = "oid",column = "oid"),
             @Result(property = "orderItemList",column = "oid",many = @Many(select = "com.czxy.dao.OrderItemMapper.findOIByOid"))
     })
-    public Order findOrderByUid(Integer uid);
+    public List<Order> findOrderByUid(Integer uid);
 }

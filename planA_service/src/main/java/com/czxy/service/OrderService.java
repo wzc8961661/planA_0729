@@ -2,6 +2,8 @@ package com.czxy.service;
 
 import com.czxy.domain.Order;
 
+import java.util.List;
+
 /**
  * @Author 黄开文
  * @Version v 1.0
@@ -15,5 +17,7 @@ public interface OrderService {
 
     public Order findOrderByOid(String oid);
 
-    public Order findOrderByUid(Integer uid);
+    public List<Order> findOrderByUid(Integer uid);
+
+    public void delOrder(String oid);
 }

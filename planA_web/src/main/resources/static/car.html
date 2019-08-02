@@ -34,7 +34,7 @@
     </div><!--head-top/-->
     <table class="shoucangtab">
         <tr>
-            <td width="65%"><span class="hui">购物车共有：<strong class="orange">2</strong>件商品</span></td>
+            <td width="65%"><span class="hui">购物车共有：<strong class="orange" id="num"></strong>件商品</span></td>
             <td width="15%"><span><a href="javascript:cleanCar()">清空</a></span></td>
             <td width="20%" align="center" style="background:#fff url(images/xian.jpg) left center no-repeat;">
                 <span class="glyphicon glyphicon-shopping-cart" style="font-size:2rem;color:#666;"></span>
@@ -42,49 +42,17 @@
         </tr>
     </table>
 
-    <div class="dingdanlist">
-        <table>
+    <div class="dingdanlist" id="cartList">
 
-            <tr>
-                <td class="dingimg" width="15%"><img src="images/pro1.jpg"/></td>
-                <td width="50%">
-                    <h3>三级分销农庄有机瓢瓜400g</h3>
-                    <time>下单时间：2015-08-11 13:51</time>
-                </td>
-                <td align="right"><a href="javascript:del(1)">删除</a></td>
-            </tr>
-            <tr>
-                <th colspan="4"><strong class="orange">¥36.60</strong></th>
-            </tr>
-        </table>
     </div><!--dingdanlist/-->
 
-    <!--<div class="dingdanlist">-->
-    <!--<table>-->
-    <!--<tr>-->
-    <!--<td width="4%"><input type="checkbox" name="1"/></td>-->
-    <!--<td class="dingimg" width="15%"><img src="images/pro1.jpg"/></td>-->
-    <!--<td width="50%">-->
-    <!--<h3>三级分销农庄有机瓢瓜400g</h3>-->
-    <!--<time>下单时间：2015-08-11 13:51</time>-->
-    <!--</td>-->
-    <!--<td align="right"><input type="text" name="number" class="spinnerExample"/></td>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<th colspan="4"><strong class="orange">¥36.60</strong></th>-->
-    <!--</tr>-->
-    <!--<tr>-->
-    <!--<td width="100%" colspan="4"><a href="javascript:;"><input type="checkbox" name="1"/> 删除</a></td>-->
-    <!--</tr>-->
-    <!--</table>-->
-    <!--</div>&lt;!&ndash;dingdanlist/&ndash;&gt;-->
     <div class="height1"></div>
     <div class="gwcpiao">
         <table>
             <tr>
                 <th width="10%"><a href="javascript:history.back(-1)"><span
                         class="glyphicon glyphicon-menu-left"></span></a></th>
-                <td width="50%">总计：<strong class="orange">¥69.88</strong></td>
+                <td width="50%">总计：<strong class="orange">¥<span id="total"></span></strong></td>
                 <td width="40%"><a href="pay.html" class="jiesuan">去结算</a></td>
             </tr>
         </table>
@@ -100,11 +68,48 @@
 <script>
     $('.spinnerExample').spinner({});
 
+    $(function () {
+        var num = 0
+        var total = 0;
+        $.ajax({
+            url:"/cart/getCart",
+            type:"GET",
+            dataType:"json",
+            statusCode:{
+                200:function(data){
+                    $(data).each(function (index,ele) {
+                        num++
+                        total+=ele.subtotal
+                        $("#cartList").append("<table>\n" +
+                            "            <tr>\n" +
+                            "                <td class=\"dingimg\" width=\"15%\"><img src='/upload/"+ele.product.pimg+"'/></td>\n" +
+                            "                <td width=\"50%\">\n" +
+                            "                    <h3>"+ele.product.pname+"--数量:"+ele.count+"</h3>\n" +
+                            "                    <time>下单时间："+ele.addTime+"</time>\n" +
+                            "                </td>\n" +
+                            "                <td align=\"right\"><a href=\"javascript:del("+ele.product.pid+")\">删除</a></td>\n" +
+                            "            </tr>\n" +
+                            "            <tr>\n" +
+                            "                <th colspan=\"4\"><strong class=\"orange\">¥"+ele.subtotal+"</strong></th>\n" +
+                            "            </tr>\n" +
+                            "        </table>")
+                    })
+                    $("#num").html(num)
+                    $("#total").html(total)
+                },
+                500:function () {
+                    $("#num").html(num)
+                    $("#total").html(total)
+                    $("#cartList").html("购物车空空如也!!!")
+                }
+            }
+        })
+    })
 
     function del(id) {
         alert(id);
         $.ajax({
-            url: "/cart/delete/pid",
+            url: "/cart/delete/"+id,
             type: "DELETE",
             dataType: "json",
             statusCode: {
@@ -112,7 +117,7 @@
                     location.href = "car.html"
                 },
                 500: function () {
-                    alert("出现了一点意料之外的事")
+                    alert("网络异常")
                 }
             }
         })

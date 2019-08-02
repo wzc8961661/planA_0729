@@ -18,14 +18,46 @@
       <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->]
-
+      <script src="js/jquery-3.4.1.min.js"></script>
       <script>
+          $(function () {
+              var total = 0;
+              $.ajax({
+                  url:"/cart/getCart",
+                  type:"GET",
+                  dataType:"json",
+                  statusCode:{
+                      200:function(data){
+                          $(data).each(function (index,ele) {
+                              total+=ele.subtotal
+                              $("#list").append("<tr>\n" +
+                                  "        <td class=\"dingimg\" width=\"15%\"><img src='/upload/"+ele.product.pimg+"' /></td>\n" +
+                                  "        <td width=\"50%\">\n" +
+                                  "         <h3>"+ele.product.pname+"</h3>\n" +
+                                  "         <time>下单时间："+ele.addTime+"</time>\n" +
+                                  "        </td>\n" +
+                                  "        <td align=\"right\"><span class=\"qingdan\">X "+ele.count+"</span></td>\n" +
+                                  "       </tr>\n" +
+                                  "       <tr>\n" +
+                                  "        <th colspan=\"3\"><strong class=\"orange\">¥"+ele.subtotal+"</strong></th>\n" +
+                                  "       </tr>")
+                          })
+                          $("#t1").html(total)
+                          $("#total").html(total+20)
+                      },
+                      500:function () {
+                         location.href="/car.html"
+                      }
+                  }
+              })
+          })
           function mysubmit() {
               $.ajax({
                   url:"/order/save",
-                  type:"GET",
+                  type:"POST",
+                  dataType:"json",
                   statusCode:{
-                      204:function () {
+                      201:function () {
                           location.href="/address.html"
                       },
                       500:function () {
@@ -53,6 +85,7 @@
       <img src="images/head.jpg" />
      </div><!--head-top/-->
      <div class="dingdanlist">
+         <div> 商品清单</div>
       <table>
        <tr>
         <td class="dingimg" width="75%" colspan="2">支付方式</td>
@@ -77,36 +110,24 @@
         <td align="right"><a href="javascript:;" class="hui">请选择发票内容</a></td>
        </tr>
        <tr><td colspan="3" style="height:10px; background:#fff;padding:0;"></td></tr>
-       <tr>
-        <td class="dingimg" width="75%" colspan="3">商品清单</td>
-       </tr>
 
-       <tr>
-        <td class="dingimg" width="15%"><img src="images/zf3.jpg" /></td>
-        <td width="50%">
-         <h3>三级分销农庄有机瓢瓜400g</h3>
-         <time>下单时间：2015-08-11  13:51</time>
-        </td>
-        <td align="right"><span class="qingdan">X 1</span></td>
-       </tr>
-       <tr>
-        <th colspan="3"><strong class="orange">¥36.60</strong></th>
-       </tr>
-       <tr>
-        <td class="dingimg" width="15%"><img src="images/zf3.jpg" /></td>
-        <td width="50%">
-         <h3>三级分销农庄有机瓢瓜400g</h3>
-         <time>下单时间：2015-08-11  13:51</time>
-        </td>
-        <td align="right"><span class="qingdan">X 1</span></td>
-       </tr>
-       <tr>
-        <th colspan="3"><strong class="orange">¥36.60</strong></th>
-       </tr>
+          <div id="list">
+       <!--<tr>-->
+        <!--<td class="dingimg" width="15%"><img src="images/zf3.jpg" /></td>-->
+        <!--<td width="50%">-->
+         <!--<h3>三级分销农庄有机瓢瓜400g</h3>-->
+         <!--<time>下单时间：2015-08-11  13:51</time>-->
+        <!--</td>-->
+        <!--<td align="right"><span class="qingdan">X 1</span></td>-->
+       <!--</tr>-->
+       <!--<tr>-->
+        <!--<th colspan="3"><strong class="orange">¥36.60</strong></th>-->
+       <!--</tr>-->
+          </div>
 
        <tr>
         <td class="dingimg" width="75%" colspan="2">商品金额</td>
-        <td align="right"><strong class="orange">¥68.80</strong></td>
+        <td align="right"><strong class="orange">¥<span id="t1"></span></strong></td>
        </tr>
        <tr>
         <td class="dingimg" width="75%" colspan="2">折扣优惠</td>
@@ -118,7 +139,7 @@
        </tr>
        <tr>
         <td class="dingimg" width="75%" colspan="2">运费</td>
-        <td align="right"><strong class="orange">¥20.80</strong></td>
+        <td align="right"><strong class="orange">¥20.00</strong></td>
        </tr>
       </table>
     </div><!--dingdanlist/-->
@@ -131,7 +152,7 @@
      <table>
       <tr>
        <th width="10%"><a href="javascript:history.back(-1)"><span class="glyphicon glyphicon-menu-left"></span></a></th>
-       <td width="50%">总计：<strong class="orange">¥69.88</strong></td>
+       <td width="50%">总计：<strong class="orange">¥<span id="total"></span></strong></td>
        <td width="40%"><a href="javascript:mysubmit()" class="jiesuan">提交订单</a></td>
       </tr>
      </table>

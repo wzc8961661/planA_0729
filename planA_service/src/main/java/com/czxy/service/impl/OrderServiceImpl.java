@@ -47,7 +47,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order findOrderByUid(Integer uid) {
+    public List<Order> findOrderByUid(Integer uid) {
         return orderMapper.findOrderByUid(uid);
+    }
+
+    @Override
+    public void delOrder(String itenId) {
+        orderItemMapper.deleteByPrimaryKey(itenId);
     }
 }

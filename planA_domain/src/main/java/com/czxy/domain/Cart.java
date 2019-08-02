@@ -1,5 +1,6 @@
 package com.czxy.domain;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,7 @@ public class Cart {
         CartItem cartItem = cartItemMap.get(product.getPid());
         if (cartItem == null) {
             cartItem = new CartItem();
+            cartItem.setAddTime(new Date());
             cartItem.setProduct(product);
             cartItem.setCount(count);
             cartItemMap.put(product.getPid(), cartItem);

@@ -18,21 +18,7 @@
       <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <script>
-          $(function () {
-              var oid = location.search.split("=")[1]
-              $.ajax({
-                  url:"/order/"+oid,
-                  type:"GET",
-                  dataType:"json",
-                  success:function (order) {
-                      $("#oid").html(order.oid)
-                      $("#date").html(order.orderTime)
-                      $("#status").html(order.orderStatus)
-                  }
-              })
-          })
-      </script>
+
   </head>
   <body>
     <div class="maincont">
@@ -79,5 +65,20 @@
    <script>
 	$('.spinnerExample').spinner({});
 	</script>
+    <script>
+        $(function () {
+            var oid = location.search.split("=")[1]
+            $.ajax({
+                url:"/order/"+oid,
+                type:"GET",
+                dataType:"json",
+                success:function (order) {
+                    $("#oid").html(order.oid)
+                    $("#date").html(order.orderTime)
+                    $("#status").html(order.orderStatus)
+                }
+            })
+        })
+    </script>
   </body>
 </html>

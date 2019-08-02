@@ -2,6 +2,7 @@ package com.czxy.controller;
 
 
 import com.czxy.domain.Cart;
+import com.czxy.domain.CartItem;
 import com.czxy.domain.Product;
 import com.czxy.service.CartService;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/cart")
@@ -29,30 +33,22 @@ public class CartController {
 //		2.更新购物车
 //		获取商品信息
             Product byPid = cartService.findByPid(pid);
-
             if (byPid == null) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//500
             }
-
 //		 从session  中获取购物车对象
             Cart cart = (Cart) session.getAttribute("cart");
-
 //		防止清空购物车
             if (cart == null) {
                 cart = new Cart();
             }
-
-
             System.out.println(count);
             cart.addCart(byPid, count);
-
             System.out.println(cart);
             System.out.println(cart.getCartItemMap().get(pid).getSubtotal());
             session.setAttribute("cart", cart);
             System.out.println(cart.getTotal());
-
-            return new ResponseEntity<Void>(HttpStatus.CREATED);  //201
-
+            return new ResponseEntity<>(HttpStatus.CREATED);  //201
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);//500
@@ -88,5 +84,21 @@ public class CartController {
         }
     }
 
+    @GetMapping("/getCart")
+    public ResponseEntity<List<CartItem>> getCart(HttpSession session){
+
+        try {
+            Cart cart = (Cart) session.getAttribute("cart");
+            Map<Integer, CartItem> cartItemMap = cart.getCartItemMap();
+            ArrayList<CartItem> cartItems = new ArrayList<>();
+            for (Integer key : cartItemMap.keySet()) {
+                CartItem cartItem = cartItemMap.get(key);
+                cartItems.add(cartItem);
+            }
+            return ResponseEntity.ok(cartItems);
+        }catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

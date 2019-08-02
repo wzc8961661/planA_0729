@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Author 黄开文
@@ -25,11 +22,12 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
-    @GetMapping("/save")
+    @PostMapping("/save")
     public ResponseEntity<Void> subOrder(HttpSession session){
         Cart cart = (Cart) session.getAttribute("cart");
         User user = (User) session.getAttribute("loginU");
         if (cart == null){
+            System.out.println("购物车为空");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (user == null){
@@ -40,7 +38,7 @@ public class OrderController {
         order.setOid(UUID.randomUUID().toString().replace("-",""));
         order.setUid(user.getUid());
         order.setOrderStatus(1);
-        List<OrderItem> orderItemList = order.getOrderItemList();
+        ArrayList<OrderItem> orderItems = new ArrayList<>();
         Map<Integer, CartItem> cartItemMap = cart.getCartItemMap();
         for (Integer key : cartItemMap.keySet()) {
             CartItem cartItem = cartItemMap.get(key);
@@ -51,25 +49,26 @@ public class OrderController {
             orderItem.setQuantity(cartItem.getCount());
             orderItem.setSubPrice(cartItem.getSubtotal());
             orderItem.setPid(cartItem.getProduct().getPid());
-            orderItemList.add(orderItem);
+            orderItems.add(orderItem);
         }
-        order.setOrderItemList(orderItemList);
+        order.setOrderItemList(orderItems);
         orderService.saveOrder(order);
         session.removeAttribute("cart");
         session.setAttribute("oid",order.getOid());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/getOid")
     public ResponseEntity<String> getOid(HttpSession session){
         String oid = (String) session.getAttribute("oid");
-        session.removeAttribute("oid");
+        System.out.println(oid);
         return ResponseEntity.ok(oid);
     }
 
     @PutMapping("/address")
     public ResponseEntity<Void> saveAddress(Order order){
         try {
+            System.out.println(order);
             orderService.updateAddress(order);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -85,8 +84,22 @@ public class OrderController {
     }
 
     @GetMapping("/MyOrder/{uid}")
-    public ResponseEntity<Order> findOrderByUid(@PathVariable("uid") Integer uid){
-        Order order = orderService.findOrderByUid(uid);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<List<Order>> findOrderByUid(@PathVariable("uid") Integer uid){
+        List<Order> orders =  orderService.findOrderByUid(uid);
+        for (Order order : orders) {
+            System.out.println(order);
+        }
+        return ResponseEntity.ok(orders);
+    }
+
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<Void> delOrder(@PathVariable("itemId") String itemId){
+        try {
+            orderService.delOrder(itemId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

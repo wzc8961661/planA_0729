@@ -18,26 +18,7 @@
       <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-      <script src="js/jquery-3.4.1.min.js"></script>
-      <script>
-          $(function () {
-              $.ajax({
-                  url:"/user/findUser",
-                  type:"GET",
-                  dataType:"json",
-                  statusCode:{
-                      200:function (user) {
-                          $("#name").html(user.phone)
-                          $("#myorder").prop("href","order.html?uid="+user.uid)
-                      },
-                      500:function () {
-                          alert("暂未登录，请登录")
-                          location.href="/login.html"
-                      }
-                  }
-              })
-          })
-      </script>
+
   </head>
   <body>
     <div class="maincont">
@@ -91,7 +72,7 @@
 	 </ul><!--userNav/-->
      
      <div class="lrSub">
-       <a href="javascript:;">退出登录</a>
+       <a href="javascript:logOut()">退出登录</a>
      </div>
      
      <div class="height1"></div>
@@ -133,5 +114,37 @@
    <script>
 	$('.spinnerExample').spinner({});
    </script>
+    <script>
+        $(function () {
+            $.ajax({
+                url:"/user/findUser",
+                type:"GET",
+                dataType:"json",
+                statusCode:{
+                    200:function (user) {
+                        $("#name").html(user.phone)
+                        $("#myorder").prop("href","order.html?uid="+user.uid)
+                    },
+                    500:function () {
+                        alert("暂未登录，请登录")
+                        location.href="/login.html"
+                    }
+                }
+            })
+        })
+
+        function logOut() {
+            $.ajax({
+                url:"/user/logOut",
+                type:"GET",
+                dataType:"json",
+                statusCode:{
+                    204:function () {
+                        location.href="/login.html"
+                    }
+                }
+            })
+        }
+    </script>
   </body>
 </html>
